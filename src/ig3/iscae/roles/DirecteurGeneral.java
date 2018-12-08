@@ -6,6 +6,14 @@ public class DirecteurGeneral {
    
    
    
+public DirecteurGeneral(String loginDG, String passwordDG) {
+	super();
+	this.loginDG = loginDG;
+	this.passwordDG = passwordDG;
+}
+public DirecteurGeneral() {
+	// TODO Auto-generated constructor stub
+}
 public String getLoginDG() {
 	return loginDG;
 }

@@ -7,6 +7,6 @@ import ig3.iscae.roles.DirecteurGeneral;
 
 public class DGService {
 
-	private Map<String, DirecteurGeneral> directeurs=Memoire.getDirecteurs();
+	private DirecteurGeneral dg=new DirecteurGeneral();
 	
 }

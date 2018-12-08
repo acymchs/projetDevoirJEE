@@ -9,12 +9,13 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.ws.rs.ext.Provider;
+
 
 import ig3.iscae.memoire.Memoire;
-import ig3.iscae.resources.AdminResource;
 
-@Provider
+
+
+//@Produces(MediaType.TEXT_HTML)
 public class AdminLoginFilter implements Filter {
 
 	private String typeCodage=null;
@@ -25,31 +26,31 @@ public class AdminLoginFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest requete, ServletResponse reponse, FilterChain chain)
+	public void doFilter(ServletRequest requete, ServletResponse reponse, FilterChain ch)
 			throws IOException, ServletException {
 		reponse.setContentType("text/html");
 		PrintWriter out = reponse.getWriter();
 		String login=requete.getParameter("login");
 		String password=requete.getParameter("password");
-		AdminResource adm=new AdminResource();
-		
-//		if(login.equals(adm.login().getLogin()) && password.equals(Memoire.getAdmin().getPassword())) {
-//			
-			//envoyer vers la sevlet du welcome notre administrateur!!
-			chain.doFilter(requete, reponse);
-//		}
-//		else {
-//			
-////			out.println("<HTML>");
-////			out.println("<HEAD><TITLE>Servlet FOO</TITLE></HEAD>");
-////			out.println("<BODY>");
-////			out.println("<H1>it's first filter</H1>");
-////			out.println("</BODY></HTML>");
-////			out.close();
-//			System.out.println("Filter");
-//			//ne bouger pas vers la servlet du welcome il faut une autre requete GET!!!
-//		}
-//		
+
+		if(!(login.equals(Memoire.getAdmin().getLogin())) ||!(password.equals(Memoire.getAdmin().getPassword()))) {
+			
+			out.println("<HTML>");
+			out.println("<HEAD><TITLE>Ereur</TITLE></HEAD>");
+			out.println("<BODY>");
+			out.println("<H1>Login ou Mot de passe invalide!!!</H1>");
+			out.println("<H1>il faut une autre requete GET!!!</H1>");
+			out.println("</BODY></HTML>");
+			out.close();
+			
+			
+			
+		}
+		else {
+			ch.doFilter(requete, reponse);
+			
+		}
+	
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class ServletWelcomeAdmin extends HttpServlet {
 		out.println("<HTML>");
 		out.println("<HEAD><TITLE>welcome</TITLE></HEAD>");
 		out.println("<BODY>");
-		out.println("<H1>Welcome "+req.getParameter("login")+"</H1>");
+		out.println("<H1>Welcome l'Administrateur "+req.getParameter("login")+" vous etes connecte Maintenant</H1>");
 		out.println("</BODY></HTML>");
 		out.close();
 	}
