@@ -1,6 +1,8 @@
 package ig3.iscae.resources;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -54,12 +56,16 @@ AdminService adminServices=new AdminService();
 			return adminServices.enseignants();
 		}
 	
+		
+		
 		//GET list des matieres
-				@GET
-				@Path("/login/enseignants")
-				public List<Matiere> matieres(){
-					return adminServices.matieres();
-				}
+		@GET
+        @Path("/login/matieres")
+		public List<Matiere> matieres(){
+			return adminServices.matieres();
+		}
+		
+		
 		
 	@PUT
 	//maper le lien pour changer mot de passe etape 2
@@ -71,6 +77,34 @@ AdminService adminServices=new AdminService();
 	}
 	
 	
+	
+	//Methode pour chaque enseignant on ajout ses matieres une par une!!
+	@PUT
+	@Path("/login/gestionDesEnseignants")
+	public Enseignant enseigner(@QueryParam("matiere") String matiere,@QueryParam("idEnseignant") Integer id,Enseignant e,Matiere m) {//web service qui affecte les matieres aux enseignants
+		
+		if(Memoire.getEnseignants().isEmpty() && Memoire.getMatieres().isEmpty()) {
+			return null;
+		}
+		else {
+			if(!(Memoire.getEnseignants().containsKey(id) && Memoire.getMatieres().containsKey(matiere))) {//si l'un des matiere ou l'enseignant n'est pas encore ajouter rien a retourne
+				return null;
+			}
+			else {
+				       e=Memoire.getEnseignants().get(id);
+				       m=Memoire.getMatieres().get(matiere);
+				       if(m.getEnseignant()==null) {
+					                      e.setMatieres(m);//voir le setters des matiere class Enseignant
+					                     m.setEnseignant(e.getNom()+" "+e.getPrenom());//pour identifier l'enseignant de la matiere
+				        }
+				       else return null;
+				  }
+			}
+		return e;
+	}
+	
+	
+	
 	@POST
 	@Path("/login/ajoutDG")//ajouter des directeurs generales
 	public DirecteurGeneral ajoutDG(@QueryParam("username") String username,@QueryParam("password") String password,DirecteurGeneral dg) {
@@ -78,6 +112,8 @@ AdminService adminServices=new AdminService();
 		return adminServices.ajoutDirecteurG(dg);
 		
 	}
+	
+	
 	
 	@POST
 	@Path("/login/ajoutDE")//ajouter des directeurs etudes
@@ -87,25 +123,98 @@ AdminService adminServices=new AdminService();
 	}
 	
 	
+	
+	
 	@POST
 	@Path("/login/addEnseignant")
+	
 	public Enseignant ajoutEnseignant(@QueryParam("nom") String nom,@QueryParam("prenom") String prenom,Enseignant enseignant) {
 		enseignant=new Enseignant(nom,prenom);
-		return adminServices.addEnseignant(enseignant);
-	}
+		if(Memoire.getEnseignants().isEmpty()) {//si aucun enseignant est ajoute par les directeurs! C-a-d memoire vide
+			return adminServices.addEnseignant(enseignant);
+		}
+		
+	//si un tel enseignant sera ajouter avec le meme nom et prenom q'un autre existe deja
+		//un test sera recommender ici!
+		
+		else {
+			//une boucle pour tester les noms et les prenoms
+			
+			for(int i=1;i<=Memoire.getEnseignants().size();i++) {
+				//pour chaque enseignant on verifer qu'il n'ya pas les meme noms et prenoms que celui ci, 
+				//on joue sur les IDs auto-incremente de la memoire voir methode addEseignant() du class AdminServices
+				
+				if(Memoire.getEnseignants().get(i).getNom().equals(nom)) {
+					if(Memoire.getEnseignants().get(i).getPrenom().equals(prenom)) {
+						return null;//Rien a ajouter et il sera besoin une autre GET!!
+					}
+				}
+			}
+		}
+	 return adminServices.addEnseignant(enseignant);
+	}	
+
+	    
+	
+
+	
 	
 	@POST
 	@Path("/login/addMatiere")
 	public Matiere ajoutMatiere(@QueryParam("nom") String nom,Matiere m) {
-		m=new Matiere(nom);
-        return adminServices.addMatiere(m);
+		 
+			m=new Matiere(nom);
+			if(Memoire.getMatieres().isEmpty()) {
+				return adminServices.addMatiere(m);
+			}
+			
+			else {
+				for(int i=1;i<=Memoire.getMatieres().size();i++) {
+					if((Memoire.getMatieres().containsKey(nom))) {//les cles du Map dans la memoire son des String(les noms des matieres car le nom doit etre unique
+						return null;
+					}
+				}
+			}
+			return adminServices.addMatiere(m);
+		
+        
 	}
+	
+	
 	
 	@POST
 	@Path("/login/addCrenaux")
-	public Crenaux ajoutCrenaux(@QueryParam("debut") String debut,@QueryParam("fin") String fin,Crenaux c) {
-		c=new Crenaux(debut,fin);
-        return adminServices.addCrenaux(c);
+	public Crenaux ajoutCrenaux(@QueryParam("jour") String jour,@QueryParam("debut") String debut,@QueryParam("fin") String fin,
+								@QueryParam("matiere") String matiere,Matiere m,Crenaux c) {
+		
+	   c=new Crenaux(jour,debut,fin);
+	  if(Memoire.getCrenaux().isEmpty()) {
+		  if(Memoire.getMatieres().isEmpty()) {
+			  return null;
+		  }
+		  else if(Memoire.getMatieres().containsKey(matiere)) {
+			  m=Memoire.getMatieres().get(matiere);
+			  c.setMatiere(m);
+		  }
+		  else return null;
+	  }
+	  else {
+		  if(Memoire.getMatieres().containsKey(matiere)) {
+			  if(c.getMatiere()!=null) {
+				  return null;
+			  }
+			  else {
+				  m=Memoire.getMatieres().get(matiere);
+				  c.setMatiere(m);
+			  }
+		  }
+		  
+		  return adminServices.addCrenaux(c);
+	  }
+       return adminServices.addCrenaux(c);// un crenaux pas cours :D
 	}
+	
+	
+	
 
 }

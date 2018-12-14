@@ -2,8 +2,10 @@ package ig3.iscae.memoire;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ig3.iscae.roles.Administrateur;
 import ig3.iscae.roles.Crenaux;
@@ -18,8 +20,8 @@ public class Memoire {
     private static DirecteurGeneral directeurG=new DirecteurGeneral();
     private static DirecteurEtude directeurE=new DirecteurEtude();
     private static Map<Integer,Enseignant> enseignants=new HashMap<>();
-    private static Map<Integer,Matiere>matieres=new HashMap<>();
-    private static Crenaux crenaux=new Crenaux();
+    private static Map<String,Matiere>matieres=new HashMap<>();
+    private static List<Crenaux> crenaux=new ArrayList<>();
 
 //	#####################################################################
 //getters et setters de l'administarteur
@@ -68,23 +70,32 @@ public class Memoire {
 
 	//#########################################################
 	//getters and setters des matieres
-	public static Map<Integer, Matiere> getMatieres() {
+	public static Map<String, Matiere> getMatieres() {
 		return matieres;
 	}
 
-	public static void setMatieres(Map<Integer, Matiere> matieres) {
+	public static void setMatieres(Map<String, Matiere> matieres) {
 		Memoire.matieres = matieres;
 	}
 	//#########################################################
 		//getters and setters des crenaux
 
-	public static Crenaux getCrenaux() {
+	public static List<Crenaux> getCrenaux() {
 		return crenaux;
 	}
 
-	public static void setCrenaux(Crenaux crenaux) {
+	public static void setCrenaux(List<Crenaux> crenaux) {
 		Memoire.crenaux = crenaux;
 	}
+
+	
+
+	
+
+	
+
+
+	
 	
 	
 	

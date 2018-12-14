@@ -6,18 +6,20 @@ import java.util.Map;
 import java.util.Set;
 
 import ig3.iscae.memoire.Memoire;
+import ig3.iscae.roles.Administrateur;
 import ig3.iscae.roles.Crenaux;
 import ig3.iscae.roles.DirecteurEtude;
-import ig3.iscae.roles.DirecteurGeneral;
 import ig3.iscae.roles.Enseignant;
 import ig3.iscae.roles.Matiere;
 
-public class DGService {
-
+public class DEService {
 	
 	private Map<String, Matiere> matieres=Memoire.getMatieres();
 	private List<Crenaux> crenaux=Memoire.getCrenaux();
 	
+	//ajout des enseigenants
+	
+			
 			
 			//ajout des matieres
 			public Matiere addMatiere(Matiere matiere) {
@@ -30,17 +32,14 @@ public class DGService {
 						return new ArrayList<Matiere>(matieres.values());
 					}
 
-					public DirecteurGeneral connexion() {
-						// TODO Auto-generated method stub
-						return Memoire.getDirecteurG();
+					public DirecteurEtude connexion() {
+						return Memoire.getDirecteurE();
 					}
 		
-		
-					 public Crenaux addCrenaux(Crenaux crenaux) {				
+	 public Crenaux addCrenaux(Crenaux crenaux) {				
 							this.crenaux.add(crenaux);
 							return crenaux;
 							}	
-					
 		       
-	
+		       
 }

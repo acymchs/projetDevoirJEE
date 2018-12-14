@@ -24,6 +24,33 @@
   <url-pattern>/ws-rest/administrateur/login</url-pattern>
   </servlet-mapping>
 	
+	
+	<servlet>
+     <servlet-name>dg</servlet-name>
+     <servlet-class>ig3.iscae.servlets.AcceptCnxDG</servlet-class>
+    
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>dg</servlet-name>
+  <url-pattern>/ws-rest/DG/cnx</url-pattern>
+  </servlet-mapping>
+	
+	
+	
+	<servlet>
+     <servlet-name>de</servlet-name>
+     <servlet-class>ig3.iscae.servlets.AcceptCnxDE</servlet-class>
+    
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>de</servlet-name>
+  <url-pattern>/ws-rest/DE/cnx</url-pattern>
+  </servlet-mapping>
+  
+  
+	
+	
+	
 	 <filter>
   <filter-name>filterloginAdmin</filter-name>
   <filter-class>ig3.iscae.filtres.AdminLoginFilter</filter-class>
@@ -32,4 +59,25 @@
 <filter-name>filterloginAdmin</filter-name>
 <url-pattern>/ws-rest/administrateur/login</url-pattern>
 </filter-mapping>
+
+
+<filter>
+  <filter-name>filterDG</filter-name>
+  <filter-class>ig3.iscae.filtres.ConnexionDGFilter</filter-class>
+</filter>
+<filter-mapping>
+<filter-name>filterDG</filter-name>
+<url-pattern>/ws-rest/DG/cnx</url-pattern>
+</filter-mapping>
+
+
+<filter>
+  <filter-name>filterDE</filter-name>
+  <filter-class>ig3.iscae.filtres.ConnexionDEFilter</filter-class>
+</filter>
+<filter-mapping>
+<filter-name>filterDE</filter-name>
+<url-pattern>/ws-rest/DE/cnx</url-pattern>
+</filter-mapping>
+
 </web-app>

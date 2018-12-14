@@ -3,6 +3,7 @@ package ig3.iscae.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ig3.iscae.memoire.Memoire;
 import ig3.iscae.roles.Administrateur;
@@ -17,8 +18,10 @@ public class AdminService {
 private Administrateur adm=new Administrateur();
 
 private Map<Integer,Enseignant> enseignants=Memoire.getEnseignants();
-private Map<Integer, Matiere> matieres=Memoire.getMatieres();
-	private Crenaux crenaux=new Crenaux();
+private Map<String, Matiere> matieres=Memoire.getMatieres();
+private List<Crenaux> crenaux=Memoire.getCrenaux();
+
+
 	public void setAdm(Administrateur adm) {
 	this.adm = new Administrateur(adm);
 	
@@ -59,8 +62,10 @@ private Map<Integer, Matiere> matieres=Memoire.getMatieres();
 		//ajout des enseigenants
 		
 		public Enseignant addEnseignant(Enseignant e) {
-			e.setId(enseignants.size()+1);
-			enseignants.put(e.getId(), e);
+			
+				e.setId(enseignants.size()+1);//Auto_incrementer les IDs
+				enseignants.put(e.getId(), e);
+			
 			return e;
 		}
 		//list des enseignants
@@ -70,9 +75,7 @@ private Map<Integer, Matiere> matieres=Memoire.getMatieres();
 		
 		//ajout des matieres
 		public Matiere addMatiere(Matiere matiere) {
-			matiere.setId(matieres.size()+1);
-			matieres.put(matiere.getId(), matiere);
-			
+				matieres.put(matiere.getNom(), matiere);
 			return matiere;
 		}
 		
@@ -80,11 +83,15 @@ private Map<Integer, Matiere> matieres=Memoire.getMatieres();
 				public List<Matiere> matieres() {
 					return new ArrayList<Matiere>(matieres.values());
 				}
-				//ajout des crenaux
-				public Crenaux addCrenaux(Crenaux crenaux) {				
-					Memoire.setCrenaux(crenaux);
-					return crenaux;
-				}	
+	
+	//ajout des crenaux
+	       public Crenaux addCrenaux(Crenaux crenaux) {				
+			this.crenaux.add(crenaux);
+			return crenaux;
+			}	
+	       
+	       
+	       
 				
 				
 }

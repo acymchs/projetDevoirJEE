@@ -1,9 +1,9 @@
 package ig3.iscae.roles;
 
 public class Matiere {
-	private Integer id;
+	
     private String nom;
-    private Enseignant enseignant;
+   private String enseignant;
     
     
     
@@ -20,24 +20,29 @@ public class Matiere {
 	}
 
 
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	
 	public String getNom() {
 		return nom;
 	}
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public Enseignant getEnseignant() {
+
+
+	public String getEnseignant() {
 		return enseignant;
 	}
-	public void setEnseignant(Enseignant enseignant) {
+
+
+	public void setEnseignant(String enseignant) {
 		this.enseignant = enseignant;
 	}
+
+
+	
+
+
+	
     
   
 }
